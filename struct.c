@@ -33,8 +33,6 @@ int menu(){
 }
 
 void Cadastro(Game *inventario,int tamanho){
-        //printf("Digite o código do game:\n");
-        //scanf("%d",&inventario[tamanho-1].index);
         inventario[tamanho-1].index = inventario[tamanho-2].index + 1;
         printf("Digite o título do jogo:\n");
         scanf(" %[^\n]",&inventario[tamanho-1].name);
@@ -78,18 +76,50 @@ void Consultar (Game *inventario){
 
 }
 
-//void Carregar_Dados
+// Carregar Dados
+void Carregar_Dados(Game **Inventario, int *tamanho){
+    FILE *arquivo = fopen("dados.txt","r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return;
+    }
 
-void Salvar_Dados(Game *Inventario, int tamanho){
+    // Ignorar a primeira linha (cabeçalho)
+    char line[255];
+    fgets(line, sizeof(line), arquivo);
+
+    int i = 0;
+    while (fgets(line, sizeof(line), arquivo) != NULL) {
+        Game jogo; // Cria uma instância temporária da estrutura Game
+
+        sscanf(line, "%d,%[^,],%[^,],%[^,],%d",
+               &jogo.index,
+               jogo.name,
+               jogo.description,
+               jogo.rating,
+               &jogo.quantity);
+
+        *Inventario = realloc(*Inventario, (i + 1) * sizeof(Game));
+        (*Inventario)[i] = jogo;
+
+        i++;
+        *tamanho = i; // Atualizar o tamanho do inventário
+    }
+
+    fclose(arquivo);
+}
+
+
+void Salvar_Dados(Game *Inventario,int tamanho){
     FILE *arquivo = fopen("dados.txt","w");
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         return;
     }
-    fprintf(arquivo, "Codigo,Descricao,Quantidade\n");
+    fprintf(arquivo, "Codigo,Nome,Descricao,Classificação Indicativa,Quantidade\n");
     for(int i=0;i<tamanho;i++){
         if(Inventario[i].index != 0){
-            fprintf(arquivo, "%d,%s,%d\n", Inventario[i].index, Inventario[i].description, Inventario[i].quantity);
+            fprintf(arquivo, "%d,%s,%s,%s,%d\n", Inventario[i].index, Inventario[i].name, Inventario[i].description, Inventario[i].rating, Inventario[i].quantity);
         }
     }
     fclose(arquivo);
@@ -103,14 +133,16 @@ void Fim() {
 
 int main(){
     setlocale(LC_ALL, "portuguese"); // Permitindo o uso de acentos e Ç
-    int tamanho = 1;
-    Game *Inventario = calloc(tamanho, sizeof(Game));
+    int tamanho = 0;
+    //Game *Inventario = calloc(tamanho, sizeof(Game));
+    Game *Inventario = NULL;
+    Carregar_Dados(&Inventario, &tamanho);
+
     while(1){
         switch(menu()){
         case 1:
             tamanho ++;
             Inventario = (Game*) realloc(Inventario,tamanho*sizeof(Game));
-            Inventario[tamanho-2].index = 0;
             Cadastro(Inventario,tamanho); // Cadastrando os jogos
             break;
         case 2:
