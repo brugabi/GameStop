@@ -79,13 +79,13 @@ void Consultar (Game *inventario){
     system("cls");
 
 }
-void Alterar (Game*inventario){
-    int index;
-    int afirmacao;
-    printf("Digite o Código do jogo:\n");
-    scanf("%d",&index);
-    for (int i=0;;i++){
-        if(inventario[i].index == index){
+//void Alterar (Game*inventario){
+    //int index;
+    //int afirmacao;
+    //printf("Digite o Código do jogo:\n");
+    //scanf("%d",&index);
+    //for (int i=0;;i++){
+        //if(inventario[i].index == index){
 
     }
 }
