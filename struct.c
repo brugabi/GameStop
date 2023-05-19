@@ -18,7 +18,7 @@ int menu(){
         printf("1. Cadastrar Título\n");
         printf("2. Mostrar Títulos Cadastrados\n");
         printf("3. Consultar Títulos Cadastrados\n"); // funcao para alterar o que o usuário quiser, nome, quantidade, etc.
-        printf("4. Deletar Titulo\n"); //
+        printf("4. Alterar Titulo\n"); //
         printf("0. Sair\n");
         printf("Opção: ");
         scanf("%d",&opcao);
@@ -49,10 +49,10 @@ void Cadastro(Game *inventario,int tamanho){
     }
 
 void Mostrar_Inventario(Game *inventario,int tamanho){
-    printf("| %-10s | %-10s | %-10s |\n", "Código", "Título", "Quantidade");
-    printf("|------------|------------|------------|\n");
+    printf("| %-10s | %-10s |\n", "Código", "Título");
+    printf("|------------|------------|\n");
     for (int i = 0; i < tamanho; i++) {
-    if(inventario[i].index != 0) printf("| %-10d | %-10s | %-10d |\n", inventario[i].index, inventario[i].name, inventario[i].quantity);
+    if(inventario[i].index != 0) printf("| %-10d | %-10s |\n", inventario[i].index, inventario[i].name);
     }
     system("pause");
     system("cls");
@@ -70,10 +70,24 @@ void Consultar (Game *inventario){
             printf("Descrição:\n\t%s\n",inventario[i].description);
             break;
         }
+        else {
+            printf("Opção Inválida\n");
+            break;
+        }
     }
     system("pause");
     system("cls");
 
+}
+void Alterar (Game*inventario){
+    int index;
+    int afirmacao;
+    printf("Digite o Código do jogo:\n");
+    scanf("%d",&index);
+    for (int i=0;;i++){
+        if(inventario[i].index == index){
+
+    }
 }
 
 // Carregar Dados
