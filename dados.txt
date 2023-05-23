@@ -1,3 +1,4 @@
 Codigo,Nome,Descricao,Classificação Indicativa,Quantidade
 1,zelda,nintendo,livre,2
-2,teste,teste,teste,2
+2,teste novo,teste,teste,2
+3,Zelda,Nintendo,Livre,4
