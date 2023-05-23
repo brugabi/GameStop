@@ -58,36 +58,64 @@ void Mostrar_Inventario(Game *inventario,int tamanho){
     system("cls");
 }
 
-void Consultar (Game *inventario){
-    int index;
+void Consultar (Game *inventario, int tamanho){
+    int index, flag=0;
     printf("Digite o Código do jogo:\n");
     scanf("%d",&index);
-    for(int i=0;;i++){
+    for(int i=0;i<tamanho;i++){
         if(inventario[i].index == index){
             printf("Nome: %s\n",inventario[i].name);
             printf("Classificação Indicativa: %s\n",inventario[i].rating);
             printf("Quantidade: %d\n",inventario[i].quantity);
             printf("Descrição:\n\t%s\n",inventario[i].description);
-            break;
-        }
-        else {
-            printf("Opção Inválida\n");
+            flag = 1;
             break;
         }
     }
+    if (flag == 0) printf("Jogo não existe ou não encontrado\n");
     system("pause");
     system("cls");
 
 }
-//void Alterar (Game*inventario){
-    //int index;
-    //int afirmacao;
-    //printf("Digite o Código do jogo:\n");
-    //scanf("%d",&index);
-    //for (int i=0;;i++){
-        //if(inventario[i].index == index){
+void Alterar (Game*inventario, int tamanho){
+    int index;
+    int afirmacao;
+    //inventario[tamanho-1].index = inventario[tamanho-2].index + 1;
+    printf("Digite o Código do jogo:\n");
+    scanf("%d",&index);
+    for (int i=0;i<tamanho-1;i++){
+        if(inventario[i].index == index){
+                printf("Jogo a ser alterado: %d, %s\n", inventario[i].index, inventario[i].name);
+                printf("O que deseja alterar?\t 1-Nome, 2- Descrição, 3-Classificação Indicativa, 4- Quantidade\n");
+                scanf("%d", &afirmacao);
+                switch(afirmacao)
+                {
+                    case 1:
+                        printf("Digite o novo nome:\n");
+                        scanf(" %[^\n]",&inventario[i].name);
+                        break;
+                    case 2:
+                        printf("Digite a nova descrição:\n");
+                        scanf(" %[^\n]",&inventario[i].description);
+                        break;
+                    case 3:
+                       printf("Digite a nova classificação:\n");
+                       scanf(" %[^\n]",&inventario[i].rating);
+                       break;
+                    case 4:
+                       printf("Digite a nova classificação:\n");
+                       scanf(" %[^\n]",&inventario[i].quantity);
+                       break;
+                    default:
+                        printf("Opção inválida\n");
+                        break;
+                }
 
     }
+  }
+  printf("FIM DO CADASTRO\n");
+  system("pause");
+  system("cls");
 }
 
 // Carregar Dados
@@ -163,7 +191,10 @@ int main(){
             Mostrar_Inventario(Inventario,tamanho); // Mostrando o inventário
             break;
         case 3:
-            Consultar(Inventario);
+            Consultar(Inventario, tamanho);
+            break;
+        case 4:
+            Alterar(Inventario, tamanho);
             break;
         case 0:
             Salvar_Dados(Inventario,tamanho);
