@@ -11,13 +11,14 @@ typedef struct {
 
 int menu(){
     int option;
-    //scanear arquivo
+    //scanear archive
     do{
         printf("\n----- Menu -----\n");
         printf("1. Register a Title\n");
         printf("2. Show Registered Titles\n");
         printf("3. Consult Registered Titles\n");
         printf("4. Change a Title\n");
+        printf("5. Delete a Title\n");
         printf("0. END\n");
         printf("Option: ");
         scanf("%d",&option);
@@ -78,7 +79,7 @@ void Consult (Game *inventory, int size){
 }
 void Change (Game*inventory, int size){
     int index;
-    int afirmation;
+    int affirmation;
     //inventory[size-1].index = inventory[size-2].index + 1;
     printf("Enter the index of the game:\n");
     scanf("%d",&index);
@@ -86,8 +87,8 @@ void Change (Game*inventory, int size){
         if(inventory[i].index == index){
                 printf("Game to be changed: '%d' -  %s\n", inventory[i].index, inventory[i].name);
                 printf("What you'd like to change?\n1 - Name\t 2 - Description\t 3 - Age rating\t 4 - Quantity avaible\n");
-                scanf("%d", &afirmation);
-                switch(afirmation)
+                scanf("%d", &affirmation);
+                switch(affirmation)
                 {
                     case 1:
                         printf("Enter a new name:\n");
@@ -116,23 +117,52 @@ void Change (Game*inventory, int size){
   system("pause");
   system("cls");
 }
-//Deletar
+void Delete (Game*inventory, int size){
+    int index;
+    char affirmation;
+    printf("Enter the index of the game:\n");
+    scanf("%d",&index);
+    for (int i=0;i<size;i++){
+        if(inventory[i].index == index){
+                printf("Game: '%d' -  %s\n", inventory[i].index, inventory[i].name);
+                printf("Are you sure you want to delete this game?\n\n");
+                scanf("%s", &affirmation);
+                if (affirmation == 'y' || affirmation == 'Y')
+                {
+                    inventory[i].index = 0 ;
+                    for (int i=0;i<size;i++){
+                        if(inventory[i].index > index)
+                        {
+                            inventory[i].index = inventory[i].index - 1;
+                            printf("GAME DELETED\n");
+                        }
+                    }
 
+                }
+                else {
+                    printf("GAME NOT DELETED\n");
+                }
+    }
+  }
+  printf("RETURNING TO PROGRAM\n");
+  system("pause");
+  system("cls");
+}
 
 // Carregar Dados
 void Load_File(Game **Inventory, int *size){
-    FILE *arquivo = fopen("data.txt","r");
-    if (arquivo == NULL) {
+    FILE *archive = fopen("data.txt","r");
+    if (archive == NULL) {
         printf("Unable to open the file.\n");
         return;
     }
 
     // Ignorar a primeira linha (cabeçalho)
     char line[255];
-    fgets(line, sizeof(line), arquivo);
+    fgets(line, sizeof(line), archive);
 
     int i = 0;
-    while (fgets(line, sizeof(line), arquivo) != NULL) {
+    while (fgets(line, sizeof(line), archive) != NULL) {
         Game game; // Cria uma instância temporária da estrutura Game
 
         sscanf(line, "%d,%[^,],%[^,],%[^,],%d",
@@ -149,35 +179,34 @@ void Load_File(Game **Inventory, int *size){
         *size = i; // Atualizar o size do inventário
     }
 
-    fclose(arquivo);
+    fclose(archive);
 }
 
 
 void Save_File(Game *Inventory,int size){
-    FILE *arquivo = fopen("data.txt","w");
-    if (arquivo == NULL) {
+    FILE *archive = fopen("data.txt","w");
+    if (archive == NULL) {
         printf("Error to open the file.\n");
         return;
     }
-    fprintf(arquivo, "Index,Name,Description,Age Ration,Quantity\n");
+    fprintf(archive, "Index,Name,Description,Age Ration,Quantity\n");
     for(int i=0;i<size;i++){
         if(Inventory[i].index != 0){
-            fprintf(arquivo, "%d,%s,%s,%s,%d\n", Inventory[i].index, Inventory[i].name, Inventory[i].description, Inventory[i].rating, Inventory[i].quantity);
+            fprintf(archive, "%d,%s,%s,%s,%d\n", Inventory[i].index, Inventory[i].name, Inventory[i].description, Inventory[i].rating, Inventory[i].quantity);
         }
     }
-    fclose(arquivo);
+    fclose(archive);
 }
 
 void END() {
     printf("\n------------------\n");
-    printf("Programa finalizado!\n");
+    printf("END OF THE PROGRAM!\n");
     printf("------------------\n");
 }
 
 int main(){
 
     int size = 0;
-    //Game *Inventory = calloc(size, sizeof(Game));
     Game *Inventory = NULL;
     Load_File(&Inventory, &size);
 
@@ -196,6 +225,9 @@ int main(){
             break;
         case 4:
             Change(Inventory, size);
+            break;
+        case 5:
+            Delete(Inventory, size);
             break;
         case 0:
             Save_File(Inventory,size);
