@@ -1,4 +1,3 @@
 Index,Name,Description,Age Ration,Quantity
-1,jogo 1,jogo 1,18,3
-2,jogo 2,jogo 2,18,2
-1,JOGO 4,JOGO 4,12,2
+1,jogo 3,jogo 3,12,2
+2,jogo 4,jogo 4,4,12

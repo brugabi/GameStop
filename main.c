@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 typedef struct {
     int index;
@@ -129,12 +130,13 @@ void Delete (Game*inventory, int size){
                 scanf("%s", &affirmation);
                 if (affirmation == 'y' || affirmation == 'Y')
                 {
-                    int valor_antigo = inventory[i].index;
-                    inventory[i].index = 0 ;
-                    for (int i=0;i<size-index;i++){
-                        if(inventory[i].index > valor_antigo)
+                    for (int j=i;j<size-1;j++){
+                        if(inventory[j].index > index)
                         {
-                            inventory[i].index--;
+                            strcpy(inventory[j].name, inventory[j+1].name);
+                            strcpy(inventory[j].description, inventory[j+1].description);
+                            strcpy(inventory[j].rating, inventory[j+1].rating);
+                            inventory[j].quantity = inventory[j+1].quantity;
                         }
                     }
                     printf("GAME DELETED\n");
@@ -142,9 +144,8 @@ void Delete (Game*inventory, int size){
                 }
                 else {
                     printf("GAME NOT DELETED\n");
+                    break;
                 }
-    } else {
-    printf("%d",i);
     }
   }
   printf("RETURNING TO PROGRAM\n");
@@ -231,6 +232,8 @@ int main(){
             break;
         case 5:
             Delete(Inventory, size);
+            size --;
+            Inventory = (Game*) realloc(Inventory,size*sizeof(Game));
             break;
         case 0:
             Save_File(Inventory,size);
