@@ -122,26 +122,29 @@ void Delete (Game*inventory, int size){
     char affirmation;
     printf("Enter the index of the game:\n");
     scanf("%d",&index);
-    for (int i=0;i<size;i++){
+    for (int i=index-1;i<size;i++){
         if(inventory[i].index == index){
                 printf("Game: '%d' -  %s\n", inventory[i].index, inventory[i].name);
-                printf("Are you sure you want to delete this game?\n\n");
+                printf("Are you sure you want to delete this game?(Y/N)\n\n");
                 scanf("%s", &affirmation);
                 if (affirmation == 'y' || affirmation == 'Y')
                 {
+                    int valor_antigo = inventory[i].index;
                     inventory[i].index = 0 ;
-                    for (int i=0;i<size;i++){
-                        if(inventory[i].index > index)
+                    for (int i=0;i<size-index;i++){
+                        if(inventory[i].index > valor_antigo)
                         {
-                            inventory[i].index = inventory[i].index - 1;
-                            printf("GAME DELETED\n");
+                            inventory[i].index--;
                         }
                     }
-
+                    printf("GAME DELETED\n");
+                    break;
                 }
                 else {
                     printf("GAME NOT DELETED\n");
                 }
+    } else {
+    printf("%d",i);
     }
   }
   printf("RETURNING TO PROGRAM\n");
