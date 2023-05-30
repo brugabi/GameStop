@@ -118,7 +118,7 @@ void Change (Game*inventory, int size){
   system("pause");
   system("cls");
 }
-void Delete (Game*inventory, int size){
+int Delete (Game*inventory, int size){
     int index;
     char affirmation;
     printf("Enter the index of the game:\n");
@@ -140,17 +140,25 @@ void Delete (Game*inventory, int size){
                         }
                     }
                     printf("GAME DELETED\n");
-                    break;
+                    printf("RETURNING TO PROGRAM\n");
+                    system("pause");
+                    system("cls");
+                    return 1;
                 }
                 else {
                     printf("GAME NOT DELETED\n");
-                    break;
+                    printf("RETURNING TO PROGRAM\n");
+                    system("pause");
+                    system("cls");
+                    return 0;
                 }
     }
   }
-  printf("RETURNING TO PROGRAM\n");
-  system("pause");
-  system("cls");
+    printf("INDEX NOT FOUND\n");
+    printf("RETURNING TO PROGRAM\n");
+    system("pause");
+    system("cls");
+    return 0;
 }
 
 // Carregar Dados
@@ -231,9 +239,11 @@ int main(){
             Change(Inventory, size);
             break;
         case 5:
-            Delete(Inventory, size);
-            size --;
-            Inventory = (Game*) realloc(Inventory,size*sizeof(Game));
+            if(Delete(Inventory, size)== 1)
+                {
+                size --;
+                Inventory = (Game*) realloc(Inventory,size*sizeof(Game));
+                }
             break;
         case 0:
             Save_File(Inventory,size);
