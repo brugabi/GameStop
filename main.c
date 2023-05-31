@@ -61,6 +61,18 @@ void Show_Inventory(Game *inventory,int size){
 
 void Consult (Game *inventory, int size){
     int index, flag=0;
+    char affirmation;
+    printf("Do you want to see the full list?\n");
+    scanf("%s", &affirmation);
+    system("cls");
+    if (affirmation == 'y' || affirmation =='Y')
+    {
+        printf("| %-10s | %-10s |\n", "INDEX", "TITLE");
+        printf("|------------|------------|\n");
+        for (int i = 0; i < size; i++) {
+        if(inventory[i].index != 0) printf("| %-10d | %-10s |\n", inventory[i].index, inventory[i].name);
+    }
+    }
     printf("Enter the index of the game:\n");
     scanf("%d",&index);
     for(int i=0;i<size;i++){
@@ -81,7 +93,18 @@ void Consult (Game *inventory, int size){
 void Change (Game*inventory, int size){
     int index;
     int affirmation;
-    //inventory[size-1].index = inventory[size-2].index + 1;
+    char option;
+    printf("Do you want to see the full list?\n");
+    scanf("%s", &option);
+    system("cls");
+    if (option == 'y' || option =='Y')
+    {
+        printf("| %-10s | %-10s |\n", "INDEX", "TITLE");
+        printf("|------------|------------|\n");
+        for (int i = 0; i < size; i++) {
+        if(inventory[i].index != 0) printf("| %-10d | %-10s |\n", inventory[i].index, inventory[i].name);
+    }
+    }
     printf("Enter the index of the game:\n");
     scanf("%d",&index);
     for (int i=0;i<size;i++){
@@ -121,6 +144,18 @@ void Change (Game*inventory, int size){
 int Delete (Game*inventory, int size){
     int index;
     char affirmation;
+    char option;
+    printf("Do you want to see the full list?\n");
+    scanf("%s", &option);
+    system("cls");
+    if (option == 'y' || option =='Y')
+    {
+        printf("| %-10s | %-10s |\n", "INDEX", "TITLE");
+        printf("|------------|------------|\n");
+        for (int i = 0; i < size; i++) {
+        if(inventory[i].index != 0) printf("| %-10d | %-10s |\n", inventory[i].index, inventory[i].name);
+    }
+    }
     printf("Enter the index of the game:\n");
     scanf("%d",&index);
     for (int i=index-1;i<size;i++){
