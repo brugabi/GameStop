@@ -39,6 +39,7 @@ int menu(){
         printf("3. Consult Registered Titles\n");
         printf("4. Change a Title\n");
         printf("5. Delete a Title\n");
+        SetColor(4);
         printf("0. END\n");
         SetColor(15);
         printf("Option: ");
