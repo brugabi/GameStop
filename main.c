@@ -110,7 +110,7 @@ void Change (Game*inventory, int size){
     for (int i=0;i<size;i++){
         if(inventory[i].index == index){
                 printf("Game to be changed: '%d' -  %s\n", inventory[i].index, inventory[i].name);
-                printf("What you'd like to change?\n1 - Name\t 2 - Description\t 3 - Age rating\t 4 - Quantity avaible\n");
+                printf("What you'd like to change?\n1 - NAME\t 2 - DESCRIPTION\t 3 - AGE RATING(AR)\t 4 - QUANTITY AVAIBLE\t 5  - EVERYTHING\n");
                 scanf("%d", &affirmation);
                 switch(affirmation)
                 {
@@ -130,6 +130,17 @@ void Change (Game*inventory, int size){
                        printf("Enter a new avaible quanitty:\n");
                        scanf(" %[^\n]",&inventory[i].quantity);
                        break;
+                    case 5:
+                       printf("Enter a new name:\n");
+                       scanf(" %[^\n]",&inventory[i].name);
+                       printf("Enter a new discription:\n");
+                       scanf(" %[^\n]",&inventory[i].description);
+                       printf("Enter a new age rating:\n");
+                       scanf(" %[^\n]",&inventory[i].rating);
+                       printf("Enter a new avaible quanitty:\n");
+                       scanf(" %[^\n]",&inventory[i].quantity);
+                       break;
+
                     default:
                         printf("INVALID OPTION\n");
                         break;
