@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <windows.h>
 
 typedef struct {
     int index;
@@ -10,9 +11,27 @@ typedef struct {
     int quantity;
 } Game;
 
+void SetColor(int ForgC)
+ {
+     WORD wColor;
+
+      HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+      CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+                       //We use csbi for the wAttributes word.
+     if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
+     {
+                 //Mask out all but the background attribute, and add in the forgournd     color
+          wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
+          SetConsoleTextAttribute(hStdOut, wColor);
+     }
+     return;
+ }
+
 int menu(){
     int option;
     //scanear archive
+    SetColor(14);
     do{
         printf("\n----- Menu -----\n");
         printf("1. Register a Title\n");
@@ -21,6 +40,7 @@ int menu(){
         printf("4. Change a Title\n");
         printf("5. Delete a Title\n");
         printf("0. END\n");
+        SetColor(15);
         printf("Option: ");
         scanf("%d",&option);
         if (option<0 || option>5) {
@@ -35,26 +55,33 @@ int menu(){
 
 void Registry(Game *inventory,int size){
         inventory[size-1].index = inventory[size-2].index + 1;
+        SetColor(14);
         printf("Enter the title of the game:\n");
         scanf(" %[^\n]",&inventory[size-1].name);
+        SetColor(15);
         printf("Enter the discription:\n");
         scanf(" %[^\n]",&inventory[size-1].description);
+        SetColor(2);
         printf("Enter the rating:\n");
         scanf(" %[^\n]",&inventory[size-1].rating);
+        SetColor(6);
         printf("Enter the avaible quantity:\n");
         scanf("%d",&inventory[size-1].quantity);
         system("cls");
+        SetColor(15);
         printf("END OF REGISTRY\n");
         system("pause");
         system("cls");
     }
 
 void Show_Inventory(Game *inventory,int size){
+    SetColor(12);
     printf("| %-10s | %-10s |\n", "INDEX", "TITLE");
     printf("|------------|------------|\n");
     for (int i = 0; i < size; i++) {
     if(inventory[i].index != 0) printf("| %-10d | %-10s |\n", inventory[i].index, inventory[i].name);
     }
+    SetColor(15);
     system("pause");
     system("cls");
 }
@@ -62,9 +89,10 @@ void Show_Inventory(Game *inventory,int size){
 void Consult (Game *inventory, int size){
     int index, flag=0;
     char affirmation;
-    printf("Do you want to see the full list?\n");
+    printf("Do you want to see the full list?(Y/N)\n");
     scanf("%s", &affirmation);
     system("cls");
+    SetColor(12);
     if (affirmation == 'y' || affirmation =='Y')
     {
         printf("| %-10s | %-10s |\n", "INDEX", "TITLE");
@@ -73,19 +101,25 @@ void Consult (Game *inventory, int size){
         if(inventory[i].index != 0) printf("| %-10d | %-10s |\n", inventory[i].index, inventory[i].name);
     }
     }
+    SetColor(15);
     printf("Enter the index of the game:\n");
     scanf("%d",&index);
     for(int i=0;i<size;i++){
         if(inventory[i].index == index){
+            SetColor(14);
             printf("Name: %s\n",inventory[i].name);
+            SetColor(2);
             printf("Age Rating: %s\n",inventory[i].rating);
+            SetColor(6);
             printf("Quantity: %d\n",inventory[i].quantity);
+            SetColor(15);
             printf("Description:\n\t%s\n",inventory[i].description);
             flag = 1;
             break;
         }
     }
     if (flag == 0) printf("Game doesn't exist or not found\n");
+    SetColor(15);
     system("pause");
     system("cls");
 
@@ -94,27 +128,37 @@ void Change (Game*inventory, int size){
     int index;
     int affirmation;
     char option;
-    printf("Do you want to see the full list?\n");
+    printf("Do you want to see the full list?(Y/N)\n");
     scanf("%s", &option);
     system("cls");
     if (option == 'y' || option =='Y')
     {
+        SetColor(12);
         printf("| %-10s | %-10s |\n", "INDEX", "TITLE");
         printf("|------------|------------|\n");
         for (int i = 0; i < size; i++) {
         if(inventory[i].index != 0) printf("| %-10d | %-10s |\n", inventory[i].index, inventory[i].name);
     }
     }
+    SetColor(15);
     printf("Enter the index of the game:\n");
     scanf("%d",&index);
     for (int i=0;i<size;i++){
         if(inventory[i].index == index){
+                SetColor(14);
                 printf("Game to be changed: '%d' -  %s\n", inventory[i].index, inventory[i].name);
+                SetColor(2);
+                printf("Age Rating: %s\n",inventory[i].rating);
+                SetColor(6);
+                printf("Quantity: %d\n",inventory[i].quantity);
+                SetColor(15);
+                printf("Description:\n\t%s\n",inventory[i].description);
                 printf("What you'd like to change?\n1 - NAME\t 2 - DESCRIPTION\t 3 - AGE RATING(AR)\t 4 - QUANTITY AVAIBLE\t 5  - EVERYTHING\n");
                 scanf("%d", &affirmation);
                 switch(affirmation)
                 {
                     case 1:
+                        SetColor(14);
                         printf("Enter a new name:\n");
                         scanf(" %[^\n]",&inventory[i].name);
                         break;
@@ -123,24 +167,29 @@ void Change (Game*inventory, int size){
                         scanf(" %[^\n]",&inventory[i].description);
                         break;
                     case 3:
+                       SetColor(2);
                        printf("Enter a new age rating:\n");
                        scanf(" %[^\n]",&inventory[i].rating);
                        break;
                     case 4:
+                       SetColor(6);
                        printf("Enter a new avaible quanitty:\n");
-                       scanf(" %[^\n]",&inventory[i].quantity);
+                       scanf(" %d",&inventory[i].quantity);
                        break;
                     case 5:
+                       SetColor(14);
                        printf("Enter a new name:\n");
                        scanf(" %[^\n]",&inventory[i].name);
+                       SetColor(15);
                        printf("Enter a new discription:\n");
                        scanf(" %[^\n]",&inventory[i].description);
+                       SetColor(2);
                        printf("Enter a new age rating:\n");
                        scanf(" %[^\n]",&inventory[i].rating);
+                       SetColor(6);
                        printf("Enter a new avaible quanitty:\n");
-                       scanf(" %[^\n]",&inventory[i].quantity);
+                       scanf(" %d",&inventory[i].quantity);
                        break;
-
                     default:
                         printf("INVALID OPTION\n");
                         break;
@@ -148,6 +197,7 @@ void Change (Game*inventory, int size){
 
     }
   }
+  SetColor(15);
   printf("END OF THE MODIFICATION\n");
   system("pause");
   system("cls");
@@ -156,19 +206,22 @@ int Delete (Game*inventory, int size){
     int index;
     char affirmation;
     char option;
-    printf("Do you want to see the full list?\n");
+    printf("Do you want to see the full list?(Y/N)\n");
     scanf("%s", &option);
     system("cls");
     if (option == 'y' || option =='Y')
     {
+        SetColor(12);
         printf("| %-10s | %-10s |\n", "INDEX", "TITLE");
         printf("|------------|------------|\n");
         for (int i = 0; i < size; i++) {
         if(inventory[i].index != 0) printf("| %-10d | %-10s |\n", inventory[i].index, inventory[i].name);
     }
     }
+    SetColor(15);
     printf("Enter the index of the game:\n");
     scanf("%d",&index);
+    SetColor(4);
     for (int i=index-1;i<size;i++){
         if(inventory[i].index == index){
                 printf("Game: '%d' -  %s\n", inventory[i].index, inventory[i].name);
@@ -192,6 +245,7 @@ int Delete (Game*inventory, int size){
                     return 1;
                 }
                 else {
+                    SetColor(2);
                     printf("GAME NOT DELETED\n");
                     printf("RETURNING TO PROGRAM\n");
                     system("pause");
@@ -200,6 +254,7 @@ int Delete (Game*inventory, int size){
                 }
     }
   }
+    SetColor(15);
     printf("INDEX NOT FOUND\n");
     printf("RETURNING TO PROGRAM\n");
     system("pause");
