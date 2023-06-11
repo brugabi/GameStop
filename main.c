@@ -105,10 +105,10 @@ void Registry(Game *inventory,int size){
 
 void Show_Inventory(Game *inventory,int size){
     SetColor(12);
-    printf("| %-10s | %-10s |\n", "INDEX", "TITLE");
-    printf("|------------|------------|\n");
+    printf("| %-5s | %-50s |\n", "INDEX", "TITLE");
+    printf("|-------|----------------------------------------------------|\n");
     for (int i = 0; i < size; i++) {
-    if(inventory[i].index != 0) printf("| %-10d | %-10s |\n", inventory[i].index, inventory[i].name);
+    if(inventory[i].index != 0) printf("| %-5d | %-50s |\n", inventory[i].index, inventory[i].name);
     }
     SetColor(15);
     system("pause");
@@ -124,10 +124,10 @@ void Consult (Game *inventory, int size){
     SetColor(12);
     if (affirmation == 'y' || affirmation =='Y')
     {
-        printf("| %-10s | %-10s |\n", "INDEX", "TITLE");
-        printf("|------------|------------|\n");
-        for (int i = 0; i < size; i++) {
-        if(inventory[i].index != 0) printf("| %-10d | %-10s |\n", inventory[i].index, inventory[i].name);
+      printf("| %-5s | %-50s |\n", "INDEX", "TITLE");
+      printf("|-------|----------------------------------------------------|\n");
+      for (int i = 0; i < size; i++) {
+      if(inventory[i].index != 0) printf("| %-5d | %-50s |\n", inventory[i].index, inventory[i].name);
     }
     }
     SetColor(15);
@@ -147,14 +147,14 @@ void Consult (Game *inventory, int size){
             break;
         }
     }
-    if (flag == 0) printf("Game doesn't exist or not found\n");
+    if (flag == 0) printf("GAME DOESN'T EXIST OR NOT FOUND\n");
     SetColor(15);
     system("pause");
     system("cls");
 
 }
 void Change (Game*inventory, int size){
-    int index;
+    int index, flag = 0;
     int affirmation;
     char option;
     printf("Do you want to see the full list?(Y/N)\n");
@@ -163,10 +163,10 @@ void Change (Game*inventory, int size){
     if (option == 'y' || option =='Y')
     {
         SetColor(12);
-        printf("| %-10s | %-10s |\n", "INDEX", "TITLE");
-        printf("|------------|------------|\n");
-        for (int i = 0; i < size; i++) {
-        if(inventory[i].index != 0) printf("| %-10d | %-10s |\n", inventory[i].index, inventory[i].name);
+      printf("| %-5s | %-50s |\n", "INDEX", "TITLE");
+      printf("|-------|----------------------------------------------------|\n");
+      for (int i = 0; i < size; i++) {
+      if(inventory[i].index != 0) printf("| %-5d | %-50s |\n", inventory[i].index, inventory[i].name);
     }
     }
     SetColor(15);
@@ -223,10 +223,12 @@ void Change (Game*inventory, int size){
                         printf("INVALID OPTION\n");
                         break;
                 }
+                flag = 1;
 
     }
   }
   SetColor(15);
+  if (flag == 0) printf("GAME DOESN'T EXIST OR NOT FOUND\n");
   printf("END OF THE MODIFICATION\n");
   system("pause");
   system("cls");
@@ -241,10 +243,10 @@ int Delete (Game*inventory, int size){
     if (option == 'y' || option =='Y')
     {
         SetColor(12);
-        printf("| %-10s | %-10s |\n", "INDEX", "TITLE");
-        printf("|------------|------------|\n");
-        for (int i = 0; i < size; i++) {
-        if(inventory[i].index != 0) printf("| %-10d | %-10s |\n", inventory[i].index, inventory[i].name);
+      printf("| %-5s | %-50s |\n", "INDEX", "TITLE");
+      printf("|-------|----------------------------------------------------|\n");
+      for (int i = 0; i < size; i++) {
+      if(inventory[i].index != 0) printf("| %-5d | %-50s |\n", inventory[i].index, inventory[i].name);
     }
     }
     SetColor(15);
